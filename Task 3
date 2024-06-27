@@ -1,0 +1,59 @@
+def check_password_strength(password):
+    # Initialize strength score and flags for character types
+    strength = 0
+    has_upper = False
+    has_lower = False
+    has_digit = False
+    has_special = False
+    
+    # Check criteria
+    if len(password) >= 8:
+        strength += 1
+    if any(c.isupper() for c in password):
+        has_upper = True
+    if any(c.islower() for c in password):
+        has_lower = True
+    if any(c.isdigit() for c in password):
+        has_digit = True
+    if any(not c.isalnum() for c in password):
+        has_special = True
+    
+    # Calculate strength score based on criteria met
+    criteria_met = [len(password) >= 8, has_upper, has_lower, has_digit, has_special]
+    strength += sum(criteria_met)
+    
+    return strength
+
+def assess_password(password):
+    strength = check_password_strength(password)
+    
+    if strength == 0:
+        return "Very Weak"
+    elif strength == 1:
+        return "Weak"
+    elif strength == 2:
+        return "Moderate"
+    elif strength == 3:
+        return "Strong"
+    elif strength == 4:
+        return "Very Strong"
+    else:
+        return "Invalid Password"
+
+def main():
+    print("Password Strength Checker")
+    print("-------------------------")
+    while True:
+        password = input("Enter a password (press Enter to quit): ")
+        
+        if password == "":
+            break
+        
+        strength = assess_password(password)
+        print(f"The strength of '{password}' is {strength}")
+        print()
+    
+    print("Thank you for using the password strength checker!")
+
+if __name__ == "__main__":
+    main()
